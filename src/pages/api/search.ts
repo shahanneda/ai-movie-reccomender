@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export type SearchMovie = {
   id: number;
@@ -18,7 +18,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GetSearchResponseType>
 ) {
-  console.log("api");
+  console.log('api');
   const searchTerm = req.query.term;
 
   const result = await await fetch(

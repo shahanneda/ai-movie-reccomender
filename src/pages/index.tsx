@@ -1,12 +1,12 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { useState } from "react";
-import { MovieBrowser } from "@/components/MovieBrowser";
+import Image from 'next/image';
+import { Inter } from 'next/font/google';
+import { useState } from 'react';
+import { MovieBrowser } from '@/components/MovieBrowser';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("john wick");
+  const [searchTerm, setSearchTerm] = useState('john wick');
   return (
     <div className="flex flex-col">
       <h1 className="p-3 bg-slate-700 flex align-center justify-center">

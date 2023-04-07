@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    loader: "default",
-    path: "https://image.tmdb.org/t/p/",
+    loader: 'default',
+    path: 'https://image.tmdb.org/t/p/',
   },
   images: {
     remotePatterns: [
@@ -15,7 +15,6 @@ const nextConfig = {
       },
     ],
   },
-
 };
 
 module.exports = nextConfig;
