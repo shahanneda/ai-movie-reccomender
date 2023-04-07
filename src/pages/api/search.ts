@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type SearchMovie = {
+export type SearchMovie = {
   id: number;
   original_title: string;
   poster_path: string;

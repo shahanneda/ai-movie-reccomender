@@ -6,7 +6,7 @@ import { MovieBrowser } from "@/components/MovieBrowser";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("john wick");
   return (
     <div className="flex flex-col">
       <h1 className="p-3 bg-slate-700 flex align-center justify-center">
