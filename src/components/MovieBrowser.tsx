@@ -1,29 +1,36 @@
 import { GetSearchResponseType } from "@/pages/api/search";
 import React, { useEffect, useState } from "react";
+import { debounce } from "debounce"
+import Image from "next/image"
 
 type Props = {
 	term: string;
 };
 export function MovieBrowser({ term }: Props) {
 	const [movies, setMovies] = useState<GetSearchResponseType>([]);
+	async function fetchData() {
+		console.log("fetching data")
+		const res = (await (
+			await fetch(`http://localhost:3000/api/search?term=${term}`)
+		).json()) as GetSearchResponseType;
+		setMovies(res);
+	}
+	const debounceFetchData = debounce(fetchData, 500);
 
 	useEffect(() => {
-		async function fetchData() {
-			const res = (await (
-				await fetch(`http://localhost:3000/api/search?term=${term}`)
-			).json()) as GetSearchResponseType;
-			setMovies(res);
-		}
-		fetchData();
+		debounceFetchData();
 	}, [term]);
 
 	return (
 		<div>
 			{term}
 			{movies.map((movie) => {
+				console.log(movie.poster_path)
 				return (
-					<div key={movie.title}>
-						<h1>{movie.title}</h1>
+					<div key={movie.id}>
+						<h1>{movie.original_title}</h1>
+						{movie.poster_path ?
+							<Image src={movie.poster_path} width={100} height={200} alt={`${movie.original_title} poster`} /> : null}
 						{/* <img src={movie.poster} alt={movie.title} /> */}
 					</div>
 				);
