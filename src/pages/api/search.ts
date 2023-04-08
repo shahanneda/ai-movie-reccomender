@@ -13,29 +13,35 @@ type SearchMovieReturnType = {
 };
 
 export type GetSearchResponseType = Array<SearchMovie>;
+export async function searchMovieDbByTerm(searchTerm: string) {
+  return await fetch(
+    `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&api_key=${process.env.TMDB_API_KEY}`
+  );
+}
+export async function addPosterToMovies(movies: Array<SearchMovie>) {
+  return movies.map((movie) => {
+    movie.poster_path = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+    return movie;
+  });
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GetSearchResponseType>
 ) {
-  console.log('api');
-  const searchTerm = req.query.term;
+  const searchTerm = req.query.term as string;
+  if (!searchTerm) {
+    return res.status(500);
+  }
 
-  const result = await await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&api_key=${process.env.TMDB_API_KEY}`
-  );
+  const result = await searchMovieDbByTerm(searchTerm);
 
   if (result.status != 200) {
     res.status(500);
     console.log(result.status);
     return;
   }
-  const movies = ((await result.json()).results as Array<SearchMovie>).map(
-    (movie) => {
-      movie.poster_path = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-      return movie;
-    }
-  );
+  const movies = await addPosterToMovies((await result.json()).results);
 
   console.log(movies);
 

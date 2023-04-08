@@ -1,5 +1,6 @@
+import { generateRecommendations } from '@/lib/ai';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { SearchMovie } from './search';
+import { addPosterToMovies, SearchMovie, searchMovieDbByTerm } from './search';
 
 const MIN_MOVIES = 1;
 
@@ -27,6 +28,18 @@ export default async function handler(
     res.status(400).send({ message: 'Not enough movie names provided!' });
     return;
   }
-  console.log(movieNames);
-  return res.status(200).json({ movies: [] });
+  const recs = await generateRecommendations(movieNames);
+
+  const recsWithMovieMetadata = await Promise.all(
+    recs.map(async (movie: string) => {
+      const dbResult = await (await searchMovieDbByTerm(movie)).json();
+      return dbResult.results[0];
+    })
+  );
+
+  const recsWithMetadataAndPoster = await addPosterToMovies(
+    recsWithMovieMetadata
+  );
+
+  return res.status(200).json({ movies: recsWithMetadataAndPoster });
 }

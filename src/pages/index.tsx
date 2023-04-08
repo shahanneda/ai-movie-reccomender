@@ -5,6 +5,7 @@ import { MovieBrowser } from '@/components/MovieBrowser';
 import { SideBar } from '@/components/SideBar';
 import { SearchMovie } from './api/search';
 import { PostRecommendationRequestType } from './api/recommend';
+import { MovieSearcher } from '@/components/MovieSearcher';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,6 +14,9 @@ export default function Home() {
   const [selectedMovies, setSelectedMovies] = useState<Set<SearchMovie>>(
     new Set()
   );
+  const [recommendedMovies, setRecommendedMovies] = useState<
+    Array<SearchMovie>
+  >([]);
 
   function fetchRecommendations() {
     console.log('fetching recommendations');
@@ -26,6 +30,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
+        setRecommendedMovies(res.movies);
       });
   }
 
@@ -44,7 +49,9 @@ export default function Home() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <MovieBrowser
+        <MovieBrowser movies={recommendedMovies} />
+
+        <MovieSearcher
           term={searchTerm}
           selectedMovies={selectedMovies}
           setSelectedMovies={setSelectedMovies}

@@ -4,33 +4,18 @@ import { debounce } from 'debounce';
 import Image from 'next/image';
 
 type Props = {
-  term: string;
-  selectedMovies: Set<SearchMovie>;
-  setSelectedMovies: (movies: Set<SearchMovie>) => void;
+  movies: Array<SearchMovie>;
+  selectedMovies?: Set<SearchMovie>;
+  setSelectedMovies?: (movies: Set<SearchMovie>) => void;
 };
 export function MovieBrowser({
-  term,
-  selectedMovies,
-  setSelectedMovies,
+  movies,
+  selectedMovies = new Set(),
+  setSelectedMovies = () => {},
 }: Props) {
-  const [movies, setMovies] = useState<GetSearchResponseType>([]);
-  async function fetchData() {
-    console.log('fetching data');
-    const res = (await (
-      await fetch(`http://localhost:3000/api/search?term=${term}`)
-    ).json()) as GetSearchResponseType;
-    setMovies(res);
-  }
-  const debounceFetchData = debounce(fetchData, 500);
-
-  useEffect(() => {
-    debounceFetchData();
-  }, [term]);
-
   return (
     <div className="flex flex-row flex-wrap  gap-10 p-16 h-5/6 overflow-auto align-middle justify-center">
       {movies.map((movie) => {
-        console.log(movie.poster_path);
         return (
           <MovieTile
             movie={movie}
