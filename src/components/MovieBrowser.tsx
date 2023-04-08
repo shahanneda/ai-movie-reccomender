@@ -5,8 +5,14 @@ import Image from 'next/image';
 
 type Props = {
   term: string;
+  selectedMovies: Set<SearchMovie>;
+  setSelectedMovies: (movies: Set<SearchMovie>) => void;
 };
-export function MovieBrowser({ term }: Props) {
+export function MovieBrowser({
+  term,
+  selectedMovies,
+  setSelectedMovies,
+}: Props) {
   const [movies, setMovies] = useState<GetSearchResponseType>([]);
   async function fetchData() {
     console.log('fetching data');
@@ -21,12 +27,8 @@ export function MovieBrowser({ term }: Props) {
     debounceFetchData();
   }, [term]);
 
-  const [selectedMovies, setSelectedMovies] = useState<Set<SearchMovie>>(
-    new Set()
-  );
-
   return (
-    <div className="flex flex-row flex-wrap  gap-10 p-16">
+    <div className="flex flex-row flex-wrap  gap-10 p-16 h-5/6 overflow-auto align-middle justify-center">
       {movies.map((movie) => {
         console.log(movie.poster_path);
         return (
@@ -35,6 +37,13 @@ export function MovieBrowser({ term }: Props) {
             key={movie.id}
             selected={selectedMovies.has(movie)}
             setSelected={(selected) => {
+              if (selected) {
+                setSelectedMovies(new Set([...selectedMovies, movie]));
+              } else {
+                const newSet = new Set(selectedMovies);
+                newSet.delete(movie);
+                setSelectedMovies(newSet);
+              }
             }}
           />
         );
