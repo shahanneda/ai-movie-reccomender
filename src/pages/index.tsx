@@ -2,8 +2,9 @@ import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import { useState } from 'react';
 import { MovieBrowser } from '@/components/MovieBrowser';
-import { BottomBar } from '@/components/BottomBar';
+import { SideBar } from '@/components/SideBar';
 import { SearchMovie } from './api/search';
+import { PostRecommendationRequestType } from './api/recommend';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,12 +14,27 @@ export default function Home() {
     new Set()
   );
 
+  function fetchRecommendations() {
+    console.log('fetching recommendations');
+    const body: PostRecommendationRequestType = {
+      movieNames: Array.from(selectedMovies).map(
+        (movie) => movie.original_title
+      ),
+    };
+
+    fetch(`/api/recommend`, { method: 'post', body: JSON.stringify(body) })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+      });
+  }
+
   return (
     <div className="flex flex-row-reverse h-screen max-h-full">
       <div className="basis-9/12 h-full max-h-full">
         <div className="h-1/6">
           <h1 className="p-3 bg-slate-700 flex align-center justify-center">
-            Ai Movie Recommender
+            AI Movie Recommender
           </h1>
           <input
             className="w-full h-10 text-white p-3 justify-self-center self-center bg-slate-600 "
@@ -34,13 +50,13 @@ export default function Home() {
           setSelectedMovies={setSelectedMovies}
         />
       </div>
-      <BottomBar
+      <SideBar
         movies={Array.from(selectedMovies)}
         onReset={() => {
           setSelectedMovies(new Set());
         }}
         onRecommend={() => {
-          console.log('recommend');
+          fetchRecommendations();
         }}
         key={selectedMovies.size}
       />

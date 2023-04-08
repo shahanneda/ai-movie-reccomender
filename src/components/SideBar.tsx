@@ -4,7 +4,7 @@ import { debounce } from 'debounce';
 import Image from 'next/image';
 import { Button } from './Button';
 
-export function BottomBar({
+export function SideBar({
   movies,
   onReset,
   onRecommend,
@@ -19,7 +19,11 @@ export function BottomBar({
         <h3 className="font-bold text-lg">You&apos;ve Selected: </h3>
         <div className="flex flex-col  h-40 ">
           {movies.map((movie) => {
-            return <span key={movie.id}>{movie.original_title}</span>;
+            return (
+              <div key={movie.id} className="p-1 bg-slate-400 rounded-md m-3 ">
+                {movie.original_title}
+              </div>
+            );
           })}
         </div>
       </div>
