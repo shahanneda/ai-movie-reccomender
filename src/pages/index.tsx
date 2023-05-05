@@ -12,7 +12,7 @@ import FullPageSpinner from '@/components/FullPageSpinner';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState('john wick');
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedMovies, setSelectedMovies] = useState<Set<SearchMovie>>(
     new Set()
   );

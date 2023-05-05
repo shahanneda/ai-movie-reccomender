@@ -18,7 +18,7 @@ export function MovieSearcher({
   async function fetchData() {
     console.log('fetching data');
     const res = (await (
-      await fetch(`http://localhost:3000/api/search?term=${term}`)
+      await fetch(`./api/search?term=${term}`)
     ).json()) as GetSearchResponseType;
     setMovies(res);
   }
