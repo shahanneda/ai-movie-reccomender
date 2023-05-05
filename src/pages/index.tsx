@@ -38,7 +38,7 @@ export default function Home() {
         setRecommendedMovies(res.movies);
       })
       .catch((err) => {
-        alert('Error:' + err);
+        alert('Please try adding more movies! \nError:' + err);
         setIsLoading(false);
       });
   }
