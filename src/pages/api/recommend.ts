@@ -13,6 +13,7 @@ type PostRecommendationResponseType = {
   message?: string;
 };
 
+const MAX_MOVIE_NAME_LENGTH = 20;
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<PostRecommendationResponseType>
@@ -28,7 +29,9 @@ export default async function handler(
     res.status(400).send({ message: 'Not enough movie names provided!' });
     return;
   }
-  const recs = await generateRecommendations(movieNames);
+  const recs = await generateRecommendations(
+    movieNames.map((m: string) => m.substring(0, MAX_MOVIE_NAME_LENGTH))
+  );
 
   const recsWithMovieMetadata = await Promise.all(
     recs.map(async (movie: string) => {

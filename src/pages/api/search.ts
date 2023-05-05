@@ -30,6 +30,7 @@ export default async function handler(
   res: NextApiResponse<GetSearchResponseType>
 ) {
   const searchTerm = req.query.term as string;
+  console.log('searchTerm', searchTerm);
   if (!searchTerm) {
     return res.status(500);
   }

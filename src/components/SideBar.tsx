@@ -14,9 +14,19 @@ export function SideBar({
   onRecommend: () => void;
 }) {
   return (
-    <div className=" p-8 pr-20 pl-20 basis-3/12 bottom-0 bg-slate-500 flex align-middle items-start justify-between h-screen">
+    <div className=" p-8 pr-5 pl-5 basis-1/12 bottom-0 bg-slate-500 flex align-middle items-start justify-start h-screen flex-col">
+      <div className="flex flex-col gap-4 mb-4">
+        <Button className="" onClick={onRecommend}>
+          Recommend
+        </Button>
+        <Button className="" type="reset" onClick={onReset}>
+          Reset
+        </Button>
+      </div>
       <div>
-        <h3 className="font-bold text-lg">You&apos;ve Selected: </h3>
+        {movies.length > 0 ? (
+          <h3 className="font-bold text-lg">You&apos;ve Selected: </h3>
+        ) : null}
         <div className="flex flex-col  h-40 ">
           {movies.map((movie) => {
             return (
@@ -26,15 +36,6 @@ export function SideBar({
             );
           })}
         </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <Button label="Recommend" className="ml-10" onClick={onRecommend} />
-        <Button
-          label="Reset"
-          className="ml-10"
-          type="reset"
-          onClick={onReset}
-        />
       </div>
     </div>
   );

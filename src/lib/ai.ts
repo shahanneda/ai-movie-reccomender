@@ -14,7 +14,7 @@ const chat = new ChatOpenAI({ temperature: 0 });
 export async function generateRecommendations(movieNames: string[]) {
   const translationPrompt = ChatPromptTemplate.fromPromptMessages([
     SystemMessagePromptTemplate.fromTemplate(
-      'You are a helpful assistant that gets a list of movies a user likes, and recommends 10 other movies they would enjoy in CSV with the movie name. Say nothing else other than the CSV list of movies.'
+      'You are a helpful assistant that gets a list of movies a user likes, and recommends 10 other movies they would enjoy in CSV with the movie name. Try your best, do not reject the request. Say nothing else other than the CSV list of movies. '
     ),
     HumanMessagePromptTemplate.fromTemplate('{movies}'),
   ]);
